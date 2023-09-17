@@ -7,10 +7,7 @@ pool:
 stages:
 - stage: Staging
   displayName: Staging Environment
-  gates:
-  - gate: ManualApprovalGate
-    displayName: Manual Approval
-    approvers: [mymanager]
+  manualDeploymentTrigger: true
 
 - stage: Dev
   displayName: Dev Environment
