@@ -7,20 +7,17 @@ pool:
 stages:
 - stage: Staging
   displayName: Staging Environment
-  steps:
-  - task: AzureRmWebAppDeployment@4
-    inputs:
-      azureSubscription: 'my-subscription-id'
-      appType: webApp
-      appName: 'my-webapp-name'
-      package: '$(System.DefaultWorkingDirectory)/**/drop/my-webapp.zip'
-      deploymentMethod: manual
-  - task: AzureRmWebAppStart@1
-    inputs:
-      azureSubscription: 'my-subscription-id'
-      appName: 'my-webapp-name'
-      startupType: Start
-    condition: succeeded('AzureRmWebAppDeployment')
+  jobs:
+  - job: DeployToStaging
+    displayName: Deploy to Staging
+    steps:
+    - task: AzureRmWebAppDeployment@4
+      inputs:
+        azureSubscription: 'my-subscription-id'
+        appType: webApp
+        appName: 'my-webapp-name'
+        package: '$(System.DefaultWorkingDirectory)/**/drop/my-webapp.zip'
+        deploymentMethod: manual
 
 - stage: Dev
   displayName: Dev Environment
