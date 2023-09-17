@@ -5,11 +5,25 @@ pool:
   vmImage: ubuntu-latest
 
 stages:
-- stage: Staging
-  displayName: Staging Environment
+- stage: Dev
+  displayName: Dev Environment
   jobs:
-  - job: DeployToStaging
-    displayName: Deploy to Staging
+  - job: BuildAndTest
+    displayName: Build and Test
+    steps:
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: build
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: test
+
+- stage: DeployToDev
+  displayName: Deploy to Dev Environment
+  dependsOn: Dev
+  jobs:
+  - job: DeployToDev
+    displayName: Deploy to Dev
     steps:
     - task: AzureRmWebAppDeployment@4
       inputs:
@@ -17,8 +31,4 @@ stages:
         appType: webApp
         appName: 'my-webapp-name'
         package: '$(System.DefaultWorkingDirectory)/**/drop/my-webapp.zip'
-        deploymentMethod: manual
 
-- stage: Dev
-  displayName: Dev Environment
-  dependsOn: Staging
