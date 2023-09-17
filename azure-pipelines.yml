@@ -1,0 +1,15 @@
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+stages:
+- stage: Staging
+  displayName: Staging Environment
+  manualApprovals:
+  - mymanager
+
+- stage: Dev
+  displayName: Dev Environment
+  dependsOn: Staging
