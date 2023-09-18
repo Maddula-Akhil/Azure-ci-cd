@@ -1,16 +1,22 @@
 trigger:
-  branches:
-    exclude:
-      - main
-
-pr:
-  branches:
-    exclude:
-      - main
+- main
 
 pool:
   vmImage: 'ubuntu-latest'
 
+variables:
+  artifactName: 'my-artifact'
+
 steps:
-- script: echo Hello, World!
-  displayName: 'Run a one-line script'
+- checkout: self
+- script:
+    displayName: 'Build artifact'
+    script: |
+      # Build your artifact here
+      # For example, if you are building a web application, you could use the following command:
+      npm run build
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: $(System.DefaultWorkingDirectory)/artifacts/$(artifactName)
+    ArtifactName: $(artifactName)
+
