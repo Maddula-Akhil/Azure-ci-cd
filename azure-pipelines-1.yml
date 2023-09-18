@@ -16,9 +16,9 @@ steps:
       # For example, if you are building a web application, you could use the following command:
       npm run build
 - task: PublishBuildArtifacts@1
-  displayName: 'Publish build artifact'
   inputs:
     PathtoPublish: $(System.DefaultWorkingDirectory)/artifacts/$(artifactName)
     ArtifactName: $(artifactName)
+
 
 
